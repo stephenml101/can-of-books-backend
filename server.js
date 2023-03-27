@@ -6,6 +6,10 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 
+
+// Bring in book model
+const Book = require('./models/books.js');
+
 const app = express();
 app.use(cors());
 
@@ -28,12 +32,28 @@ db.once('open', function () {
   console.log('Mongoose is connected');
 });
 
-//ROUTES
+//ROUTES & ENDPOINTS
 app.get('/', (request, response) => {
 
   response.status(200).send('Welcome!')
 
 });
+
+// Endpoints to retrieve all books from database
+
+app.get('/books', getBooks);
+
+async function getBooks(request, response, next){
+  //TODO: Get all dem books from dat db
+  try{
+    let allBooks = await Book.find({}); 
+
+    response.status(200).send(allBooks);
+    
+  } catch(error){
+    next(error);
+  }
+}
 
 app.get('*', (request, response) => {
   response.statusMessage(404).send('Not available');
