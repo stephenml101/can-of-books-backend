@@ -13,6 +13,9 @@ const Book = require('./models/books.js');
 const app = express();
 app.use(cors());
 
+// ! Don't forget to bring in!
+app.use(express.json());
+
 const PORT = process.env.PORT || 3002;
 
 
@@ -51,6 +54,35 @@ async function getBooks(request, response, next){
     response.status(200).send(allBooks);
     
   } catch(error){
+    next(error);
+  }
+}
+
+// Endpoint to Delete Book
+
+app.delete('/books/:bookID', deleteBook);
+
+async function deleteBook(request, response, next){
+  try {
+    let id = request.params.bookID;
+
+    await Book.findByIdAndDelete(id);
+
+    response.send(200).send('Book Deleted!')
+  } catch (error) {
+    next(error);
+  }
+}
+
+// Add a book
+app.post('/books', postBook);
+
+async function postBook(request,response,next){
+  try {
+    let createdBook = await Book.create(request.body);
+
+    response.status(204).send('test from post');
+  } catch (error) {
     next(error);
   }
 }
