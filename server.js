@@ -94,3 +94,17 @@ app.get('*', (request, response) => {
 app.use((error, request, response, next) => {
   response.status(500).send(error.message);
 });
+
+// // Endpoint to update a cat
+// app.put('/cats/:catID', updateCat);
+
+// async function updateCat(request, response, next) {
+//   try {
+//     // ID - the cat to update, DATA - the info to update the cat with
+//     let id = request.params.catID;
+//     let data = request.body;
+    
+//   } catch (error) {
+//     next(error)
+//   }
+// }
