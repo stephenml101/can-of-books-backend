@@ -68,7 +68,7 @@ async function deleteBook(request, response, next){
 
     await Book.findByIdAndDelete(id);
 
-    response.send(200).send('Book Deleted!')
+    response.status(200).send('Book Deleted!')
   } catch (error) {
     next(error);
   }
