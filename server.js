@@ -87,6 +87,28 @@ async function postBook(request,response,next){
   }
 }
 
+
+// *** Endpoint to update a book ***
+app.put('/books/:bookID', updateBook);
+
+async function updateBook(request, response, next) {
+  try {
+    // ID - the book to update, DATA - the info to update the book with
+    let id = request.params.bookID;
+    let data = request.body;
+
+    // ! 3 Args- id, data, options object
+    
+    const updatedBook = await Book.findByIdAndUpdate(id, data, { new: true, overwrite: true } );
+
+    response.status(200).send(updatedBook);
+   
+  } catch (error) {
+    next(error);
+  }
+}
+
+
 app.get('*', (request, response) => {
   response.statusMessage(404).send('Not available');
 });
@@ -95,16 +117,3 @@ app.use((error, request, response, next) => {
   response.status(500).send(error.message);
 });
 
-// // Endpoint to update a cat
-// app.put('/cats/:catID', updateCat);
-
-// async function updateCat(request, response, next) {
-//   try {
-//     // ID - the cat to update, DATA - the info to update the cat with
-//     let id = request.params.catID;
-//     let data = request.body;
-    
-//   } catch (error) {
-//     next(error)
-//   }
-// }
