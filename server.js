@@ -81,7 +81,7 @@ async function postBook(request,response,next){
   try {
     let createdBook = await Book.create(request.body);
 
-    response.status(204).send('test from post');
+    response.status(201).send(createdBook);
   } catch (error) {
     next(error);
   }
